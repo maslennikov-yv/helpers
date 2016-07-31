@@ -19,7 +19,7 @@ class PhpRenderer extends \Slim\Views\PhpRenderer
     public function __construct(\Slim\Interfaces\RouterInterface $router, $attributes = [])
     {
         $this->router = $router;
-        $templatePath = realpath(__DIR__ . '/../../views');
+        $templatePath = realpath(__DIR__ . '/../..') . '/views/';
         parent::__construct($templatePath, $attributes);
     }
 

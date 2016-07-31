@@ -1,9 +1,9 @@
 <?php if (!empty($rows) && is_array($rows)): ?>
-    <table<?= isset($table['attributes']) ? $this->attributes($table['attributes']) : '' ?>>
-        <thead<?= isset($table['thead']['attributes']) ? $this->attributes($table['thead']['attributes']) : '' ?>>
-        <tr<?= isset($table['thead']['tr']['attributes']) ? $this->attributes($table['thead']['tr']['attributes']) : '' ?>>
-            <?php if (!empty($table['columns']) && is_array($table['columns'])): ?>
-                <?php foreach ($table['columns'] as $column): ?>
+    <table<?= isset($attributes) ? $this->attributes($attributes) : '' ?>>
+        <thead<?= isset($thead['attributes']) ? $this->attributes($thead['attributes']) : '' ?>>
+        <tr<?= isset($thead['tr']['attributes']) ? $this->attributes($thead['tr']['attributes']) : '' ?>>
+            <?php if (!empty($columns) && is_array($columns)): ?>
+                <?php foreach ($columns as $column): ?>
                     <th<?= isset($column['header']['attributes']) ? $this->attributes($column['header']['attributes']) : '' ?>>
                         <?php if (isset($column['header']['callback']) && is_callable($column['header']['callback'])): ?>
                             <?= $column['header']['callback']($this) ?>
@@ -17,11 +17,11 @@
             <?php endif ?>
         </tr>
         </thead>
-        <tbody<?= isset($table['tbody']['attributes']) ? $this->attributes($table['tbody']['attributes']) : '' ?>>
+        <tbody<?= isset($tbody['attributes']) ? $this->attributes($tbody['attributes']) : '' ?>>
         <?php foreach ($rows as $i => $row): ?>
-            <tr<?= isset($table['tbody']['tr']['attributes']) ? $this->attributes($table['tbody']['tr']['attributes']) : '' ?>>
-                <?php if (!empty($table['columns']) && is_array($table['columns'])): ?>
-                    <?php foreach ($table['columns'] as $column): ?>
+            <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
+                <?php if (!empty($columns) && is_array($columns)): ?>
+                    <?php foreach ($columns as $column): ?>
                         <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
                             <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
                                 <?= $column['callback']($this, $row, $i) ?>
