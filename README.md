@@ -2,7 +2,7 @@
 
 (only Table ready so far)
 
-###Use with Slim3:
+##Use with Slim3:
 
 ```php
 $container = $app->getContainer();
