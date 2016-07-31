@@ -1,0 +1,40 @@
+<?php if (!empty($rows) && is_array($rows)): ?>
+    <table<?= isset($table['attributes']) ? $this->attributes($table['attributes']) : '' ?>>
+        <thead<?= isset($table['thead']['attributes']) ? $this->attributes($table['thead']['attributes']) : '' ?>>
+        <tr<?= isset($table['thead']['tr']['attributes']) ? $this->attributes($table['thead']['tr']['attributes']) : '' ?>>
+            <?php if (!empty($table['columns']) && is_array($table['columns'])): ?>
+                <?php foreach ($table['columns'] as $column): ?>
+                    <th<?= isset($column['header']['attributes']) ? $this->attributes($column['header']['attributes']) : '' ?>>
+                        <?php if (isset($column['header']['callback']) && is_callable($column['header']['callback'])): ?>
+                            <?= $column['header']['callback']($this) ?>
+                        <?php elseif (isset($column['header']['text'])): ?>
+                            <?= $this->escapeHtml($column['header']['text']) ?>
+                        <?php elseif (isset($column['header']['html'])): ?>
+                            <?= $column['header']['html'] ?>
+                        <?php endif; ?>
+                    </th>
+                <?php endforeach; ?>
+            <?php endif ?>
+        </tr>
+        </thead>
+        <tbody<?= isset($table['tbody']['attributes']) ? $this->attributes($table['tbody']['attributes']) : '' ?>>
+        <?php foreach ($rows as $i => $row): ?>
+            <tr<?= isset($table['tbody']['tr']['attributes']) ? $this->attributes($table['tbody']['tr']['attributes']) : '' ?>>
+                <?php if (!empty($table['columns']) && is_array($table['columns'])): ?>
+                    <?php foreach ($table['columns'] as $column): ?>
+                        <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
+                            <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
+                                <?= $column['callback']($this, $row, $i) ?>
+                            <?php elseif (isset($column['html'])): ?>
+                                <?= $column['html'] ?>
+                            <?php elseif (isset($column['name'])): ?>
+                                <?= $this->escapeHtml($row[$column['name']]) ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endforeach; ?>
+                <?php endif ?>
+            </tr>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+<?php endif ?>

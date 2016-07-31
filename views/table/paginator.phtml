@@ -1,0 +1,15 @@
+<?php if (isset($pagination['last_page']) && $pagination['last_page'] > 1): ?>
+    <ul class="pagination">
+        <li><?php if (isset($pagination['prev_page']) && $pagination['prev_page']): ?><a href="<?= $this->pathFor($route, $arguments, ['page' => $pagination['prev_page']] + $query) ?>">&laquo;</a><?php else: ?><span>&laquo;</span><?php endif; ?></li>
+        <?php foreach ($this->getPages($pagination) as $page): ?>
+            <?php if (isset($pagination['current_page']) && $page == $pagination['current_page']): ?>
+                <li class="active"><span><?= (int)$page; ?></span></li>
+            <?php else: ?>
+                <li>
+                    <a href="<?= $this->pathFor($route, $arguments, ['page' => $page] + $query) ?>"><?= (int)$page; ?></a>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <li><?php if (isset($pagination['next_page']) && $pagination['next_page']): ?><a href="<?= $this->pathFor($route, $arguments, ['page' => $pagination['next_page']] + $query) ?>">&raquo;</a><?php else: ?><span>&raquo;</span><?php endif; ?></li>
+    </ul>
+<?php endif; ?>

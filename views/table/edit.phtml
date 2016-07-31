@@ -1,0 +1,26 @@
+<?php if (isset($form) && is_array($form)): ?>
+    <form<?= isset($form['attributes']) ? $this->attributes($form['attributes']) : '' ?>>
+        <?php if (!empty($form['groups']) && is_array($form['groups'])): ?>
+            <?php foreach ($form['groups'] as $group): ?>
+                <?php if (is_array($group)): ?>
+                    <div<?= isset($group['attributes']) ? $this->attributes($group['attributes']) : '' ?>>
+                        <?php if (!empty($group['fields']) && is_array($group['fields'])): ?>
+                            <?php foreach ($group['fields'] as $field): ?>
+                                <?php if ($field['attributes'] == 'checkbox' || $field['attributes'] == 'radio'): ?>
+                                    <label<?= isset($field['label_attributes']) ? $this->attributes($field['label_attributes']) : '' ?>>
+                                        <?= $this->formField($field['attributes']) ?> <?= $this->escapeHtml($field['label']) ?>
+                                    </label>
+                                <?php else: ?>
+                                    <label<?= isset($field['label_attributes']) ? $this->attributes($field['label_attributes']) : '' ?>><?= $this->escapeHtml($field['label']) ?></label>
+                                    <?= $this->formField($field['attributes']) ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif ?>
+                    </div>
+                <?php elseif (is_callable($group)): ?>
+                    <?= $group($this) ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </form>
+<?php endif ?>

@@ -1,0 +1,28 @@
+{
+  "name": "maslennikov-yv/helpers",
+  "type": "library",
+  "keywords": [
+    "slim3",
+    "table",
+    "form"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Yuriy Maslennikov",
+      "email": "maslennikovyv@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "slim/slim": "^3.0",
+    "slim/twig-view": "^2.0",
+    "slim/php-view": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Helper\\": "src"
+    }
+  }
+}
