@@ -28,7 +28,7 @@ class Extension extends \Twig_Extension
             }),
             new \Twig_SimpleFilter('plural', function ($number, $word_1, $word_2, $word_5) {
                 //1 предмет, 2 предмета, 5 предметов
-                return [$word_1, $word_2, $word_5][$number % 10 == 1 && $number % 100 != 11 ? 0 : ($number % 10 >= 2 && $number % 10 <= 4 && $number % 100 < 10 || $number % 100 >= 20 ? 1 : 2)];
+                return [$word_1, $word_2, $word_5][$number % 10 == 1 && $number % 100 != 11 ? 0 : ($number % 10 >= 2 && $number % 10 <= 4 && ($number % 100 < 10 || $number % 100 >= 20) ? 1 : 2)];
             }),
         ];
     }
