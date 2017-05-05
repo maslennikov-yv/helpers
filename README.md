@@ -35,6 +35,7 @@ public function __invoke(Request $request, Response $response, $args)
                     'header' => [
                         'html' => 'Id',
                     ],
+                    'filter' => '<td><input class="form-control" name="search[id]" value="" type="text"></td>',
                     'name' => 'id',
                 ],
                 [
