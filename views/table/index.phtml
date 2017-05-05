@@ -16,7 +16,19 @@
                 <?php endforeach; ?>
             <?php endif ?>
         </tr>
-        </thead>
+        <?php if (count(array_column($columns, 'filter'))): ?>
+            <tr id="filters" class="filters">
+                <?php foreach ($columns as $column_id => $column): ?>
+                    <?php if (!isset($column['filter'])) : ?>
+                        <td>&nbsp;</td>
+                    <?php elseif (is_callable($column['filter'])) : ?>
+                        <?= $column['filter']($this, $column_id) ?>
+                    <?php else : ?>
+                        <?= $column['filter'] ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </tr>
+        <?php endif ?>
         <tbody<?= isset($tbody['attributes']) ? $this->attributes($tbody['attributes']) : '' ?>>
         <?php foreach ($rows as $i => $row): ?>
             <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
