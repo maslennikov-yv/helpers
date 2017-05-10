@@ -29,22 +29,24 @@
         </tr>
     <?php endif ?>
     <tbody<?= isset($tbody['attributes']) ? $this->attributes($tbody['attributes']) : '' ?>>
-    <?php foreach ($rows as $i => $row): ?>
-        <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
-            <?php if (!empty($columns) && is_array($columns)): ?>
-                <?php foreach ($columns as $column): ?>
-                    <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
-                        <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
-                            <?= $column['callback']($this, $row, $i) ?>
-                        <?php elseif (isset($column['html'])): ?>
-                            <?= $column['html'] ?>
-                        <?php elseif (isset($column['name'])): ?>
-                            <?= $this->escapeHtml($row[$column['name']]) ?>
-                        <?php endif; ?>
-                    </td>
-                <?php endforeach; ?>
-            <?php endif ?>
-        </tr>
-    <?php endforeach ?>
+    <?php if (!empty($rows) && is_array($rows)): ?>
+        <?php foreach ($rows as $i => $row): ?>
+            <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
+                <?php if (!empty($columns) && is_array($columns)): ?>
+                    <?php foreach ($columns as $column): ?>
+                        <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
+                            <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
+                                <?= $column['callback']($this, $row, $i) ?>
+                            <?php elseif (isset($column['html'])): ?>
+                                <?= $column['html'] ?>
+                            <?php elseif (isset($column['name'])): ?>
+                                <?= $this->escapeHtml($row[$column['name']]) ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endforeach; ?>
+                <?php endif ?>
+            </tr>
+        <?php endforeach ?>
+    <?php endif ?>
     </tbody>
 </table>
