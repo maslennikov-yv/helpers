@@ -1,52 +1,50 @@
-<?php if (!empty($rows) && is_array($rows)): ?>
-    <table<?= isset($attributes) ? $this->attributes($attributes) : '' ?>>
-        <thead<?= isset($thead['attributes']) ? $this->attributes($thead['attributes']) : '' ?>>
-        <tr<?= isset($thead['tr']['attributes']) ? $this->attributes($thead['tr']['attributes']) : '' ?>>
+<table<?= isset($attributes) ? $this->attributes($attributes) : '' ?>>
+    <thead<?= isset($thead['attributes']) ? $this->attributes($thead['attributes']) : '' ?>>
+    <tr<?= isset($thead['tr']['attributes']) ? $this->attributes($thead['tr']['attributes']) : '' ?>>
+        <?php if (!empty($columns) && is_array($columns)): ?>
+            <?php foreach ($columns as $column): ?>
+                <th<?= isset($column['header']['attributes']) ? $this->attributes($column['header']['attributes']) : '' ?>>
+                    <?php if (isset($column['header']['callback']) && is_callable($column['header']['callback'])): ?>
+                        <?= $column['header']['callback']($this) ?>
+                    <?php elseif (isset($column['header']['text'])): ?>
+                        <?= $this->escapeHtml($column['header']['text']) ?>
+                    <?php elseif (isset($column['header']['html'])): ?>
+                        <?= $column['header']['html'] ?>
+                    <?php endif; ?>
+                </th>
+            <?php endforeach; ?>
+        <?php endif ?>
+    </tr>
+    <?php if (count(array_column($columns, 'filter'))): ?>
+        <tr id="filters" class="filters">
+            <?php foreach ($columns as $column_id => $column): ?>
+                <?php if (!isset($column['filter'])) : ?>
+                    <td>&nbsp;</td>
+                <?php elseif (is_callable($column['filter'])) : ?>
+                    <?= $column['filter']($this, $column_id) ?>
+                <?php else : ?>
+                    <?= $column['filter'] ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </tr>
+    <?php endif ?>
+    <tbody<?= isset($tbody['attributes']) ? $this->attributes($tbody['attributes']) : '' ?>>
+    <?php foreach ($rows as $i => $row): ?>
+        <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
             <?php if (!empty($columns) && is_array($columns)): ?>
                 <?php foreach ($columns as $column): ?>
-                    <th<?= isset($column['header']['attributes']) ? $this->attributes($column['header']['attributes']) : '' ?>>
-                        <?php if (isset($column['header']['callback']) && is_callable($column['header']['callback'])): ?>
-                            <?= $column['header']['callback']($this) ?>
-                        <?php elseif (isset($column['header']['text'])): ?>
-                            <?= $this->escapeHtml($column['header']['text']) ?>
-                        <?php elseif (isset($column['header']['html'])): ?>
-                            <?= $column['header']['html'] ?>
+                    <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
+                        <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
+                            <?= $column['callback']($this, $row, $i) ?>
+                        <?php elseif (isset($column['html'])): ?>
+                            <?= $column['html'] ?>
+                        <?php elseif (isset($column['name'])): ?>
+                            <?= $this->escapeHtml($row[$column['name']]) ?>
                         <?php endif; ?>
-                    </th>
+                    </td>
                 <?php endforeach; ?>
             <?php endif ?>
         </tr>
-        <?php if (count(array_column($columns, 'filter'))): ?>
-            <tr id="filters" class="filters">
-                <?php foreach ($columns as $column_id => $column): ?>
-                    <?php if (!isset($column['filter'])) : ?>
-                        <td>&nbsp;</td>
-                    <?php elseif (is_callable($column['filter'])) : ?>
-                        <?= $column['filter']($this, $column_id) ?>
-                    <?php else : ?>
-                        <?= $column['filter'] ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </tr>
-        <?php endif ?>
-        <tbody<?= isset($tbody['attributes']) ? $this->attributes($tbody['attributes']) : '' ?>>
-        <?php foreach ($rows as $i => $row): ?>
-            <tr<?= isset($tbody['tr']['attributes']) ? $this->attributes($tbody['tr']['attributes']) : '' ?>>
-                <?php if (!empty($columns) && is_array($columns)): ?>
-                    <?php foreach ($columns as $column): ?>
-                        <td<?= isset($column['attributes']) ? (is_callable($column['attributes']) ? $this->attributes($column['attributes']($this, $row, $i)) : $this->attributes($column['attributes'])) : '' ?>>
-                            <?php if (isset($column['callback']) && is_callable($column['callback'])): ?>
-                                <?= $column['callback']($this, $row, $i) ?>
-                            <?php elseif (isset($column['html'])): ?>
-                                <?= $column['html'] ?>
-                            <?php elseif (isset($column['name'])): ?>
-                                <?= $this->escapeHtml($row[$column['name']]) ?>
-                            <?php endif; ?>
-                        </td>
-                    <?php endforeach; ?>
-                <?php endif ?>
-            </tr>
-        <?php endforeach ?>
-        </tbody>
-    </table>
-<?php endif ?>
+    <?php endforeach ?>
+    </tbody>
+</table>
